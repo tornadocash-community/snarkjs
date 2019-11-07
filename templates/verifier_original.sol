@@ -238,6 +238,21 @@ contract Verifier {
             return false;
         }
     }
+    function verifyProof(bytes calldata proof, uint[<%vk_input_length%>] calldata inputs) external view returns (bool r) {
+        // solidity does not support decoding uint[2][2] yet
+        (
+            uint[2] memory a,
+            uint[2] memory a_p,
+            uint[2] memory b1,
+            uint[2] memory b2,
+            uint[2] memory b_p,
+            uint[2] memory c,
+            uint[2] memory c_p,
+            uint[2] memory h,
+            uint[2] memory k
+        ) = abi.decode(proof, (uint[2], uint[2], uint[2], uint[2], uint[2], uint[2], uint[2], uint[2], uint[2]));
+        return verifyProof(a, a_p, [b1, b2], b_p, c, c_p, h, k, inputs);
+    }
 }
 
 
